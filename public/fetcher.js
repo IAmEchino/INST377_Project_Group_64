@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Call to Numverify for phone verification
     async function fetchPhoneVerification(phoneNumber) {
-        const apiKey = 'YOUR_NUMVERIFY_API_KEY';
+        const apiKey = '441310475c38d772a9b0b636e3e872ac';
         const url = `http://apilayer.net/api/validate?access_key=${apiKey}&number=${phoneNumber}`;
         const response = await fetch(url);
         if (!response.ok) throw new Error('Failed to fetch phone verification.');
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Call to Smarty API for address verification
     async function fetchAddressVerification(address) {
-        const apiKey = 'YOUR_SMARTY_API_KEY';
+        const apiKey = '215193069828770156';
         const url = `https://us-street.api.smartystreets.com/street-address?key=${apiKey}&address=${encodeURIComponent(address)}`;
         const response = await fetch(url);
         if (!response.ok) throw new Error('Failed to fetch address verification.');
