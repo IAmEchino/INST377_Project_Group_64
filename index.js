@@ -14,9 +14,15 @@ const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey)
 // main pages stuff
 
 app.get('/', async (req, res) => {
-    // res.sendFile('functional.js', {root: __dirname});
-    // res.sendFile('styles.css', {root: __dirname});
-    res.sendFile('functional.html', {root: __dirname});
+    res.sendFile('public/home.html', {root: __dirname});
+})
+
+app.get('/about', async (req, res) => {
+    res.sendFile('public/about.html', {root: __dirname});
+})
+
+app.get('/functional', async (req, res) => {
+    res.sendFile('public/functional.html', {root: __dirname});
 })
 
 // physical address db things
