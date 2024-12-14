@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Call to Smarty API for address verification
     async function fetchAddressVerification(address) {
-        const apiKey = '215193069828770156';
+        const apiKey = '218455856825865685';
         const url = `https://us-street.api.smartystreets.com/street-address?key=${apiKey}&address=${encodeURIComponent(address)}`;
         const response = await fetch(url);
         if (!response.ok) throw new Error('Failed to fetch address verification.');
