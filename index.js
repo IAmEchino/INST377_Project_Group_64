@@ -55,6 +55,14 @@ app.post('/physical_address', async (req, res) => {
     }
 })
 
+// main pages stuff
+
+app.get('/', async (req, res) => {
+
+    res.sendFile(home.html)
+
+})
+
 // email db things
 app.get('/email_addresses', async (req, res) => {
     console.log('Attempting to get all emails')
