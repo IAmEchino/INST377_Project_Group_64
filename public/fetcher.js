@@ -18,9 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Clear previous results
-        resultsContainer.innerHTML = `<p>Loading...</p>`;
-
         const dataType = selectedOption.value;
 
         try {
@@ -28,15 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
             let cachedData = await checkDatabaseCache(inputValue, dataType);
 
             if (cachedData) {
-                // Use cached data if found
-                console.log("Cached data found!")
-                displayResults(cachedData, dataType);
-                console.log("Cached data displayed!")
+                generateResultBox(cachedData, dataType);
                 return;
             }
 
             // If no cached data, fetch from API
-            console.log("No cached data found!")
             let apiResponse;
             if (dataType === 'phone') {
                 apiResponse = await fetchPhoneVerification(inputValue);
@@ -63,28 +56,79 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            displayResults(apiResponse, dataType);
+            generateResultBox(apiResponse, dataType);
         } catch (error) {
             displayError('An error occurred while verifying. Please try again.');
             console.error('Verification failed:', error);
         }
     });
 
+    // Generate a result box in a flexbox container
+    function generateResultBox(data, dataType) {
+        const resultBox = document.createElement('div');
+        resultBox.className = 'result-box';
+        
+        // Create a title for the result box
+        const titleElement = document.createElement('h4');
+        titleElement.textContent = `${dataType.toUpperCase()} Verification`;
+        resultBox.appendChild(titleElement);
+
+        // Create a pre-formatted text element to show detailed results
+        const detailsElement = document.createElement('pre');
+        detailsElement.textContent = JSON.stringify(data, null, 2);
+        resultBox.appendChild(detailsElement);
+
+        // Add a close button to remove the result box
+        const closeButton = document.createElement('button');
+        closeButton.textContent = 'Close';
+        closeButton.className = 'close-result';
+        closeButton.addEventListener('click', () => {
+            resultsContainer.removeChild(resultBox);
+        });
+        resultBox.appendChild(closeButton);
+
+        // Append the result box to the results container
+        resultsContainer.appendChild(resultBox);
+
+        // Clear the input field
+        inputData.value = '';
+    }
+
+    // Display an error message
+    function displayError(message) {
+        const errorBox = document.createElement('div');
+        errorBox.className = 'result-box error';
+        errorBox.style.color = 'red';
+        errorBox.textContent = message;
+        
+        // Add a close button to the error box
+        const closeButton = document.createElement('button');
+        closeButton.textContent = 'Close';
+        closeButton.className = 'close-result';
+        closeButton.addEventListener('click', () => {
+            resultsContainer.removeChild(errorBox);
+        });
+        errorBox.appendChild(closeButton);
+
+        resultsContainer.appendChild(errorBox);
+    }
+
+    // Existing functions for database cache checking, saving, and API verification remain the same
+    // (checkDatabaseCache, saveToDatabase, fetchPhoneVerification, 
+    // fetchEmailVerification, fetchAddressVerification)
+    
     // Check database cache for existing entry
     async function checkDatabaseCache(value, type) {
         let endpoint;
         switch(type) {
             case 'phone':
                 endpoint = `/phone_numbers/${encodeURIComponent(value)}`;
-                console.log(endpoint)
                 break;
             case 'email':
                 endpoint = `/email_addresses/${encodeURIComponent(value)}`;
-                console.log(endpoint)
                 break;
             case 'address':
                 endpoint = `/physical_addresses/${encodeURIComponent(value)}`;
-                console.log(endpoint)
                 break;
             default:
                 throw new Error('Invalid data type');
@@ -96,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 // No cached data found
                 return null;
             }
-            // if (!response.ok) throw new Error('Database query returned no results.');
             return await response.json();
         } catch (error) {
             console.error('Database cache check failed:', error);
@@ -115,18 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(payload)
             });
 
-            // if (!response.ok) throw new Error('Failed to save to database');
             return await response.json();
         } catch (error) {
             console.error('Database save failed:', error);
         }
     }
 
-    // Display the API response in the #results div
-    function displayResults(data, dataType) {
-        resultsContainer.innerHTML = `<h3>Verification Results for ${dataType.toUpperCase()}</h3>`;
-        resultsContainer.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-    }
+    // Rest of the API verification functions remain the same
+    // (fetchPhoneVerification, fetchEmailVerification, fetchAddressVerification)
 
     // Display an error message
     function displayError(message) {
