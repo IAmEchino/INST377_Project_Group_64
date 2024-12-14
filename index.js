@@ -31,7 +31,7 @@ app.get('/physical_addresses', async (req, res) => {
 
     const {data, error} = await supabase
     .from('physical_addresses')
-    .select();
+    .select('address, dpv_match_code, dpv_vacant');
 
     if (error) {
         console.log ('Error: ', error);
@@ -74,7 +74,7 @@ app.get('/email_addresses', async (req, res) => {
 
     const {data, error} = await supabase
     .from('email_addresses')
-    .select();
+    .select('email_address, domain, format');
 
     if (error) {
         console.log ('Error: ', error);
@@ -124,7 +124,7 @@ app.get('/phone_numbers', async (req, res) => {
 
     const {data, error} = await supabase
     .from('phone_numbers')
-    .select();
+    .select('phone_number, location, valid');
 
     if (error) {
         console.log ('Error: ', error);
@@ -186,7 +186,7 @@ app.get('/phone_numbers/:phone', async (req, res) => {
 
     const {data, error} = await supabase
     .from('phone_numbers')
-    .select()
+    .select('phone_number, valid')
     .eq('phone_number', phone)
     .single(); // Fetch a single record
 
