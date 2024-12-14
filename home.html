@@ -21,17 +21,20 @@
   <main>
     <section id="home-page">
       <h2>Is This _ Real?</h2>
-      <form>
-        <input type="text" placeholder="Start typing..." />
+      <form id="verification-form">
+        <input type="text" id="input-data" placeholder="Start typing..." />
         <div class="data-type">
           <label><input type="radio" name="data" value="email" /> Email Address</label>
           <label><input type="radio" name="data" value="address" /> Physical Address</label>
           <label><input type="radio" name="data" value="phone" /> Phone Number</label>
         </div>
-        <button type="submit">Submit</button>
+        <button type="button" id="submit-button">Submit</button>
       </form>
-      <div id="results">
-        <p>Results will appear here.</p>
+      <div id="results-container">
+        <h3>Results:</h3>
+        <div id="results" class="flex-container">
+          <!-- Results will dynamically appear here -->
+        </div>
       </div>
     </section>
   </main>
@@ -39,5 +42,7 @@
   <footer>
     <p>© 2024 Is This Real? All rights reserved.</p>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
