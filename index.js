@@ -11,6 +11,13 @@ const supabaseUrl = 'https://wsxudvanqirrsqhzsgtc.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndzeHVkdmFucWlycnNxaHpzZ3RjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM5Njk2NjgsImV4cCI6MjA0OTU0NTY2OH0.tsBM7FTCm7mHNVmOCJPypYNYN-3AwwRkdvqBaKvKoJI'
 const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey)
 
+// main pages stuff
+
+app.get('/', async (req, res) => {
+    // res.sendFile('functional.js', {root: __dirname});
+    // res.sendFile('styles.css', {root: __dirname});
+    res.sendFile('functional.html', {root: __dirname});
+})
 
 // physical address db things
 app.get('/physical_addresses', async (req, res) => {
@@ -53,14 +60,6 @@ app.post('/physical_address', async (req, res) => {
         console.log('Data Retrieved!');
         res.send(data);
     }
-})
-
-// main pages stuff
-
-app.get('/', async (req, res) => {
-
-    res.sendFile(home.html)
-
 })
 
 // email db things
