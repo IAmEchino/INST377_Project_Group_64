@@ -24,21 +24,96 @@ document.addEventListener('DOMContentLoaded', () => {
         const dataType = selectedOption.value;
 
         try {
+            // First, check if data exists in Supabase database
+            let cachedData = await checkDatabaseCache(inputValue, dataType);
+
+            if (cachedData && cachedData.length > 0) {
+                // Use cached data if found
+                displayResults(cachedData[0], dataType);
+                return;
+            }
+
+            // If no cached data, fetch from API
             let apiResponse;
             if (dataType === 'phone') {
                 apiResponse = await fetchPhoneVerification(inputValue);
+                await saveToDatabase(apiResponse, 'phone_number', {
+                    phone_number: inputValue,
+                    valid: apiResponse.valid,
+                    location: apiResponse.location_name
+                });
             } else if (dataType === 'email') {
                 apiResponse = await fetchEmailVerification(inputValue);
+                await saveToDatabase(apiResponse, 'email_address', {
+                    email_address: inputValue,
+                    format: apiResponse.format_valid,
+                    domain: apiResponse.domain,
+                    disposable: apiResponse.disposable,
+                    dns: apiResponse.dns_valid
+                });
             } else if (dataType === 'address') {
                 apiResponse = await fetchAddressVerification(inputValue);
+                await saveToDatabase(apiResponse[0], 'physical_addresses', {
+                    address: inputValue,
+                    dpv_match_code: apiResponse[0].components.dpv_match_code,
+                    dpv_vacant: apiResponse[0].components.dpv_vacant
+                });
             }
 
             displayResults(apiResponse, dataType);
         } catch (error) {
             displayError('An error occurred while verifying. Please try again.');
-            console.error('API request failed:', error);
+            console.error('Verification failed:', error);
         }
     });
+
+    // Check database cache for existing entry
+    async function checkDatabaseCache(value, type) {
+        let endpoint, columnName;
+        switch(type) {
+            case 'phone':
+                endpoint = '/phone_numbers';
+                columnName = 'phone_number';
+                break;
+            case 'email':
+                endpoint = '/email_addresses';
+                columnName = 'email_address';
+                break;
+            case 'address':
+                endpoint = '/physical_addresses';
+                columnName = 'address';
+                break;
+            default:
+                throw new Error('Invalid data type');
+        }
+
+        try {
+            const response = await fetch(`${endpoint}?${columnName}=eq.${value}`);
+            if (!response.ok) throw new Error('Database query failed');
+            return await response.json();
+        } catch (error) {
+            console.error('Database cache check failed:', error);
+            return null;
+        }
+    }
+
+    // Save verification result to database
+    async function saveToDatabase(data, table, payload) {
+        try {
+            const response = await fetch(`/${table}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error('Failed to save to database');
+            return await response.json();
+        } catch (error) {
+            console.error('Database save failed:', error);
+        }
+    }
 
     // Display the API response in the #results div
     function displayResults(data, dataType) {
