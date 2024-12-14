@@ -24,16 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const dataType = selectedOption.value;
 
         try {
-            // First, check if data exists in Supabase database
+            // First, check if data exists in database
             let cachedData = await checkDatabaseCache(inputValue, dataType);
 
-            if (cachedData && cachedData.length > 0) {
+            if (cachedData) {
                 // Use cached data if found
-                displayResults(cachedData[0], dataType);
+                console.log("Cached data found!")
+                displayResults(cachedData, dataType);
+                console.log("Cached data displayed!")
                 return;
             }
 
             // If no cached data, fetch from API
+            console.log("No cached data found!")
             let apiResponse;
             if (dataType === 'phone') {
                 apiResponse = await fetchPhoneVerification(inputValue);
@@ -69,34 +72,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check database cache for existing entry
     async function checkDatabaseCache(value, type) {
-        let endpoint, columnName;
+        let endpoint;
         switch(type) {
             case 'phone':
-                endpoint = '/phone_numbers';
-                columnName = 'phone_number';
+                endpoint = `/phone_numbers/${encodeURIComponent(value)}`;
+                console.log(endpoint)
                 break;
             case 'email':
-                endpoint = '/email_addresses';
-                columnName = 'email_address';
+                endpoint = `/email_addresses/${encodeURIComponent(value)}`;
+                console.log(endpoint)
                 break;
             case 'address':
-                endpoint = '/physical_addresses';
-                columnName = 'address';
+                endpoint = `/physical_addresses/${encodeURIComponent(value)}`;
+                console.log(endpoint)
                 break;
             default:
                 throw new Error('Invalid data type');
         }
 
         try {
-            const response = await fetch(`${endpoint}?${columnName}=eq.${value}`);
-            if (!response.ok) throw new Error('Database query failed');
+            const response = await fetch(endpoint);
+            if (response.status === 404) {
+                // No cached data found
+                return null;
+            }
+            // if (!response.ok) throw new Error('Database query returned no results.');
             return await response.json();
         } catch (error) {
             console.error('Database cache check failed:', error);
             return null;
         }
     }
-
+    
     // Save verification result to database
     async function saveToDatabase(data, table, payload) {
         try {
@@ -108,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(payload)
             });
 
-            if (!response.ok) throw new Error('Failed to save to database');
+            // if (!response.ok) throw new Error('Failed to save to database');
             return await response.json();
         } catch (error) {
             console.error('Database save failed:', error);

@@ -160,6 +160,64 @@ app.post('/phone_number', async (req, res) => {
     }
 })
 
+app.get('/email_addresses/:email', async (req, res) => {
+    const email = req.params.email;
+    console.log(`Attempting to get email for: ${email}`)
+
+    const {data, error} = await supabase
+    .from('email_addresses')
+    .select()
+    .eq('email_address', email)
+    .single(); // Fetch a single record
+
+    if (error) {
+        console.log('Error: ', error);
+        res.status(404).send(error);
+    } else {
+        console.log('Email Data Retrieved!');
+        res.send(data);
+    }
+})
+
+// New route to get a specific phone number
+app.get('/phone_numbers/:phone', async (req, res) => {
+    const phone = req.params.phone;
+    console.log(`Attempting to get phone number for: ${phone}`)
+
+    const {data, error} = await supabase
+    .from('phone_numbers')
+    .select()
+    .eq('phone_number', phone)
+    .single(); // Fetch a single record
+
+    if (error) {
+        console.log('Error: ', error);
+        res.status(404).send(error);
+    } else {
+        console.log('Phone Number Data Retrieved!');
+        res.send(data);
+    }
+})
+
+// New route to get a specific physical address
+app.get('/physical_addresses/:address', async (req, res) => {
+    const address = req.params.address;
+    console.log(`Attempting to get address for: ${address}`)
+
+    const {data, error} = await supabase
+    .from('physical_addresses')
+    .select()
+    .eq('address', address)
+    .single(); // Fetch a single record
+
+    if (error) {
+        console.log('Error: ', error);
+        res.status(404).send(error);
+    } else {
+        console.log('Physical Address Data Retrieved!');
+        res.send(data);
+    }
+})
 
 app.listen(port, () => {
     console.log("A P P   O N L I N E")
