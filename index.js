@@ -11,6 +11,8 @@ const supabaseUrl = 'https://wsxudvanqirrsqhzsgtc.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndzeHVkdmFucWlycnNxaHpzZ3RjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM5Njk2NjgsImV4cCI6MjA0OTU0NTY2OH0.tsBM7FTCm7mHNVmOCJPypYNYN-3AwwRkdvqBaKvKoJI'
 const supabase = supabaseClient.createClient(supabaseUrl, supabaseKey)
 
+
+// physical address db things
 app.get('/physical_addresses', async (req, res) => {
     console.log('Attempting to get all addresses')
 
@@ -52,6 +54,99 @@ app.post('/physical_address', async (req, res) => {
         res.send(data);
     }
 })
+
+// email db things
+app.get('/email_addresses', async (req, res) => {
+    console.log('Attempting to get all emails')
+
+    const {data, error} = await supabase
+    .from('email_addresses')
+    .select();
+
+    if (error) {
+        console.log ('Error: ', error);
+        res.send(error)
+    } else {
+        console.log('Data Retrieved!');
+        res.send(data);
+    }
+})
+
+
+
+app.post('/email_address', async (req, res) => {
+    console.log('Request', req.body);
+
+    const emailAddress = req.body.email_address;
+    const format = req.body.format;
+    const domain = req.body.domain;
+    const disposable = req.body.disposable
+    const dns = req.body.dns
+
+    const {data, error} = await supabase
+    .from('email_addresses')
+    .insert({
+        'email_address' : emailAddress,
+        'format' : format,
+        'domain' : domain,
+        'disposable' : disposable,
+        'dns' : dns
+    }).select();
+
+    if (error) {
+        console.log ('Error: ', error);
+        res.send(error);
+    } else {
+        console.log('Data Retrieved!');
+        res.send(data);
+    }
+})
+
+
+
+
+// phone number db things
+app.get('/phone_numbers', async (req, res) => {
+    console.log('Attempting to get all phone numbers')
+
+    const {data, error} = await supabase
+    .from('phone_numbers')
+    .select();
+
+    if (error) {
+        console.log ('Error: ', error);
+        res.send(error)
+    } else {
+        console.log('Data Retrieved!');
+        res.send(data);
+    }
+})
+
+
+app.post('/phone_number', async (req, res) => {
+    console.log('Request', req.body);
+
+    const phoneNumber = req.body.phone_number;
+    const valid = req.body.valid;
+    const location = req.body.location;
+    
+    const {data, error} = await supabase
+    .from('phone_numbers')
+    .insert({
+        'phone_number' : phoneNumber,
+        'valid' : valid,
+        'location' : location
+    }).select();
+
+    if (error) {
+        console.log ('Error: ', error);
+        res.send(error);
+    } else {
+        console.log('Data Retrieved!');
+        res.send(data);
+    }
+})
+
 
 app.listen(port, () => {
     console.log("A P P   O N L I N E")
