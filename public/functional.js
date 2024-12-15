@@ -9,19 +9,27 @@ document.addEventListener('DOMContentLoaded', () => {
       const inputValue = inputData.value.trim();
       const selectedOption = document.querySelector('input[name="data"]:checked');
 
-      console.log(selectedOption)
+      console.log(selectedOption.value);
+
+
       // Input validation
       if (!inputValue) {
           displayError('Please enter a value to verify.');
           return;
       }
 
-      if (selectedOption == "phone" && inputValue.length < 11) {
+      console.log(inputValue.match(/\b\d{5}(?:-\d{4})?\b/));
+
+      if (selectedOption.value == "phone" && inputValue.length < 11) {
           displayError('Please input a complete phone number with country code included.');
           return;
       }
+      if (selectedOption.value == "address" && !inputValue.match(/\b\d{5}(?:-\d{4})?\b/)) {
+        displayError('Valid 5 or 9-digit ZIP code required.');
+        return;
+      } 
 
-      if (!selectedOption) {
+      if (!selectedOption.value) {
         displayError('Please select the type of data (email, address, or phone) to verify.');
         return;
     }
@@ -136,9 +144,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function fetchAddressVerification(address) {
-      const physicalApiKey = '218455856825865685';
-      const physicalUrl = `https://us-street.api.smartystreets.com/street-address?key=${physicalApiKey}&address=${encodeURIComponent(address)}`;
-      const physicalResponse = await fetch(physicalUrl);
+      const zipCode = address.match(/\b\d{5}(?:-\d{4})?\b/)[0];
+      const physicalAuthToken = 'U9SFctsGZ7dQSZCmCh7g';
+      const physicalAuthID = '19f2610e-aa6b-2f90-3a18-eb7bb7230e73'
+      const physicalApiKey = '218455856825865685'
+      const physicalUrl = `https://us-street.api.smarty.com/street-address?street=${encodeURIComponent(address)}&auth-id=${encodeURIComponent(physicalAuthID)}&auth-token=${encodeURIComponent(physicalAuthToken)}&zipcode=${encodeURIComponent(zipCode)}`.toString();
+      console.log(physicalUrl)
+      const physicalResponse = await fetch(physicalUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Host': 'us-street.api.smarty.com'
+        }
+    });
       if (!physicalResponse.ok) throw new Error('Failed to fetch address verification.');
       return await physicalResponse.json();
   }
@@ -169,11 +187,51 @@ document.addEventListener('DOMContentLoaded', () => {
         titleElement.textContent = `${dataType.toUpperCase()} Verification`;
         resultBox.appendChild(titleElement);
 
-        // Create a pre-formatted text element to show detailed results
-        const detailsElement = document.createElement('pre');
-        detailsElement.textContent = JSON.stringify(data, null, 2);
-        resultBox.appendChild(detailsElement);
+        switch(dataType) {
+            case 'phone':
+                if (data.valid == true) {
+                    var validity = "✅"
+                } else {
+                    var validity = "❌"
+                }
+                const phoneText = `Phone Number: ${data.number}\n Location: ${data.location}\n Valid? ${validity}`
+                const phoneDetails = document.createElement('pre');
+                phoneDetails.textContent = phoneText
+                resultBox.appendChild(phoneDetails);
+                break;
+            case 'email':
+                if (data.format == true && data.disposable == false && data.dns == true) {
+                    var validity = "✅"
+                } else {
+                    var validity = "❌"
+                }
+                const emailText = `Email Address: ${data.email_address}\n Valid? ${validity}`
+                const emailDetails = document.createElement('pre');
+                emailDetails.textContent = emailText
+                resultBox.appendChild(emailDetails);
+                break;
+            case 'address':
+                if (data.dpv_vacant == false) {
+                    var vacancy = "❎"
+                } else {
+                    var vacancy = "✔️"
+                }
 
+                if (data.dpv_match_code == "Y" || 
+                    data.dpv_match_code == "S" || 
+                    data.dpv_match_code == "D") {
+                    var validity = "✅"
+                } else {
+                    var validity = "❌"
+                }
+                const physicalText = `Physical Address: ${data.address}\n Valid? ${validity}\n Vacant? ${vacancy}`
+                const physicalDetails = document.createElement('pre');
+                physicalDetails.textContent = physicalText
+                resultBox.appendChild(physicalDetails);
+                break;
+            default:
+                throw new Error('Invalid data type');
+        }
         // Add a close button to remove the result box
         const closeButton = document.createElement('button');
         closeButton.textContent = 'Close';
