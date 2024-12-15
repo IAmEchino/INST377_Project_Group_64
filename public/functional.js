@@ -53,110 +53,110 @@ document.addEventListener('DOMContentLoaded', () => {
       const dataType = selectedOption.value;
 
       try {
-        // First, check if data exists in database
+                    // First, check if data exists in database
         let cachedData = await checkDatabaseCache(inputValue, dataType);
 
         if (cachedData) {
             generateResultBox(cachedData, dataType);
             return;
         }
+          let apiResponse;
+          if (dataType === 'phone') {
+              apiResponse = await fetchPhoneVerification(inputValue);
+              console.log(apiResponse)
+              await saveToDatabase('phone_number', {
+                  phone_number: inputValue,
+                  valid: apiResponse.valid,
+                  location: apiResponse.location
+              });
+          } else if (dataType === 'email') {
+              apiResponse = await fetchEmailVerification(inputValue);
+              await saveToDatabase('email_address', {
+                  email_address: inputValue,
+                  format: apiResponse.format_valid,
+                  domain: apiResponse.domain,
+                  disposable: apiResponse.disposable,
+                  dns: apiResponse.dns_valid
+              });
+          } else if (dataType === 'address') {
+              apiResponse = await fetchAddressVerification(inputValue);
+              await saveToDatabase('physical_address', {
+                  address: inputValue,
+                  dpv_match_code: apiResponse.dpv_match_code,
+                  dpv_vacant: apiResponse.dpv_vacant
+              });
+          }
 
-        let apiResponse;
-        if (dataType === 'phone') {
-            apiResponse = await fetchPhoneVerification(inputValue);
-            console.log(apiResponse)
-            await saveToDatabase('phone_number', {
-                phone_number: inputValue,
-                valid: apiResponse.valid,
-                location: apiResponse.location
-            });
-        } else if (dataType === 'email') {
-            apiResponse = await fetchEmailVerification(inputValue);
-            await saveToDatabase('email_address', {
-                email_address: inputValue,
-                format: apiResponse.format_valid,
-                domain: apiResponse.domain,
-                disposable: apiResponse.disposable,
-                dns: apiResponse.dns_valid
-            });
-        } else if (dataType === 'address') {
-            apiResponse = await fetchAddressVerification(inputValue);
-            await saveToDatabase('physical_address', {
-                address: inputValue,
-                dpv_match_code: apiResponse.dpv_match_code,
-                dpv_vacant: apiResponse.dpv_vacant
-            });
-        }
-
-        generateResultBox(apiResponse, dataType);
+          generateResultBox(apiResponse, dataType);
       } catch (error) {
           displayError('An error occurred while verifying. Please try again.');
           console.error('Verification failed:', error);
       }
   });
 
-  // Check database cache for existing entry
-  async function checkDatabaseCache(value, type) {
-    let endpoint;
-    switch(type) {
-      case 'phone':
-        endpoint = `/phone_numbers/${encodeURIComponent(value)}`;
-        break;
-      case 'email':
-        endpoint = `/email_addresses/${encodeURIComponent(value)}`;
-        break;
-      case 'address':
-        endpoint = `/physical_addresses/${encodeURIComponent(value)}`;
-        break;
-      default:
-        throw new Error('Invalid data type');
-    }
+    // Check database cache for existing entry
+    async function checkDatabaseCache(value, type) {
+        let endpoint;
+        switch(type) {
+            case 'phone':
+                endpoint = `/phone_numbers/${encodeURIComponent(value)}`;
+                break;
+            case 'email':
+                endpoint = `/email_addresses/${encodeURIComponent(value)}`;
+                break;
+            case 'address':
+                endpoint = `/physical_addresses/${encodeURIComponent(value)}`;
+                break;
+            default:
+                throw new Error('Invalid data type');
+        }
 
-    try {
-      const response = await fetch(endpoint);
-      if (response.status === 404) {
-        // No cached data found
-        return null;
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Database cache check failed:', error);
-      return null;
+        try {
+            const response = await fetch(endpoint);
+            if (response.status === 404) {
+                // No cached data found
+                return null;
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Database cache check failed:', error);
+            return null;
+        }
     }
-  }
 
   // Save verification result to database
   async function saveToDatabase(table, payload) {
-    try {
-      console.log(payload);
-      const response = await fetch(`${host}/${table}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
+      try {
+          console.log(payload);
+          const response = await fetch(`${host}/${table}`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+          });
 
-      return await response.json();
-    } catch (error) {
-      console.error('Database save failed:', error);
-    }
+          return await response.json();
+      } catch (error) {
+            console.print("Weird phone error: ", error)
+          console.error('Database save failed:', error);
+      }
   }
 
   // Fetch APIs for verification (same as existing)
   async function fetchPhoneVerification(phoneNumber) {
-    const phoneApiKey = '441310475c38d772a9b0b636e3e872ac';
-    const phoneUrl = `http://apilayer.net/api/validate?access_key=${phoneApiKey}&number=${phoneNumber}`;
-    const phoneResponse = await fetch(phoneUrl);
-    if (!phoneResponse.ok) throw new Error('Failed to fetch phone verification.');
-    return await phoneResponse.json();
+      const phoneApiKey = '441310475c38d772a9b0b636e3e872ac';
+      const phoneUrl = `http://apilayer.net/api/validate?access_key=${phoneApiKey}&number=${phoneNumber}`;
+      const phoneResponse = await fetch(phoneUrl);
+      if (!phoneResponse.ok) throw new Error('Failed to fetch phone verification.');
+      return await phoneResponse.json();
   }
 
   async function fetchEmailVerification(email) {
-    const emailUrl = `https://emailrep.io/${email}`;
-    const emailResponse = await fetch(emailUrl);
-    if (!emailResponse.ok) throw new Error('Failed to fetch email verification.');
-    return await emailResponse.json();
+      const emailUrl = `https://emailrep.io/${email}`;
+      const emailResponse = await fetch(emailUrl);
+      if (!emailResponse.ok) throw new Error('Failed to fetch email verification.');
+      return await emailResponse.json();
   }
 
   async function fetchAddressVerification(address) {
@@ -179,29 +179,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Error and Result Display Functions
   function displayError(message) {
-    const errorBox = document.createElement('div');
-    errorBox.className = 'result-box error';
-    errorBox.style.color = 'red';
-    errorBox.textContent = message;
-    const closeButton = document.createElement('button');
-    closeButton.textContent = 'Close';
-    closeButton.className = 'close-result';
-    closeButton.addEventListener('click', () => {
-      resultsContainer.removeChild(errorBox);
-    });
-    errorBox.appendChild(closeButton);
+      const errorBox = document.createElement('div');
+      errorBox.className = 'result-box error';
+      errorBox.style.color = 'red';
+      errorBox.textContent = message;
+      const closeButton = document.createElement('button');
+      closeButton.textContent = 'Close';
+      closeButton.className = 'close-result';
+      closeButton.addEventListener('click', () => {
+          resultsContainer.removeChild(errorBox);
+      });
+      errorBox.appendChild(closeButton);
 
-    resultsContainer.appendChild(errorBox);
+      resultsContainer.appendChild(errorBox);
   }
 
-  function generateResultBox(data, dataType) {
-    const resultBox = document.createElement('div');
-    resultBox.className = 'result-box';
-    
-    // Create a title for the result box
-    const titleElement = document.createElement('h4');
-    titleElement.textContent = `${dataType.toUpperCase()} Verification`;
-    resultBox.appendChild(titleElement);
+    function generateResultBox(data, dataType) {
+        const resultBox = document.createElement('div');
+        resultBox.className = 'result-box';
+        
+        // Create a title for the result box
+        const titleElement = document.createElement('h4');
+        titleElement.textContent = `${dataType.toUpperCase()} Verification`;
+        resultBox.appendChild(titleElement);
 
         switch(dataType) {
             case 'phone':
@@ -257,10 +257,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         resultBox.appendChild(closeButton);
 
-    // Append the result box to the results container
-    resultsContainer.appendChild(resultBox);
+        // Append the result box to the results container
+        resultsContainer.appendChild(resultBox);
 
-    // Clear the input field
-    inputData.value = '';
-  }
+        // Clear the input field
+        inputData.value = '';
+    }
 });
