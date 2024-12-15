@@ -160,13 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function fetchAddressVerification(address) {
-<<<<<<< HEAD
-    const physicalApiKey = '218455856825865685';
-    const physicalUrl = `https://us-street.api.smartystreets.com/street-address?key=${physicalApiKey}&address=${encodeURIComponent(address)}`;
-    const physicalResponse = await fetch(physicalUrl);
-    if (!physicalResponse.ok) throw new Error('Failed to fetch address verification.');
-    return await physicalResponse.json();
-=======
       const zipCode = address.match(/\b\d{5}(?:-\d{4})?\b/)[0];
       const physicalAuthToken = 'U9SFctsGZ7dQSZCmCh7g';
       const physicalAuthID = '19f2610e-aa6b-2f90-3a18-eb7bb7230e73'
@@ -182,7 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
       if (!physicalResponse.ok) throw new Error('Failed to fetch address verification.');
       return await physicalResponse.json();
->>>>>>> 8f8e5276fb50522bedb54a4c65cb1dfee653eacd
   }
 
   // Error and Result Display Functions
@@ -211,21 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
     titleElement.textContent = `${dataType.toUpperCase()} Verification`;
     resultBox.appendChild(titleElement);
 
-<<<<<<< HEAD
-    // Create a pre-formatted text element to show detailed results
-    const detailsElement = document.createElement('pre');
-    detailsElement.textContent = JSON.stringify(data, null, 2);
-    resultBox.appendChild(detailsElement);
-
-    // Add a close button to remove the result box
-    const closeButton = document.createElement('button');
-    closeButton.textContent = 'Close';
-    closeButton.className = 'close-result';
-    closeButton.addEventListener('click', () => {
-      resultsContainer.removeChild(resultBox);
-    });
-    resultBox.appendChild(closeButton);
-=======
         switch(dataType) {
             case 'phone':
                 if (data.valid == true) {
@@ -279,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
             resultsContainer.removeChild(resultBox);
         });
         resultBox.appendChild(closeButton);
->>>>>>> 8f8e5276fb50522bedb54a4c65cb1dfee653eacd
 
     // Append the result box to the results container
     resultsContainer.appendChild(resultBox);
