@@ -5,14 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Is This Real? - Home</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- <script src="functional.js"></script> -->
-  <script src="functional.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/figlet/1.5.2/figlet.min.js"></script>
+  <script src="ascii-title.js" defer></script>
 </head>
 <body>
   <header>
     <div class="navbar">
-      <h1>Is This Real?</h1>
+      <h1 id="ascii-title"></h1>
       <nav>
         <a href="/">Home</a>
         <a href="/functional">Is This Real?</a>
@@ -35,8 +34,7 @@
       </form>
       <div id="results-container">
         <h3>Results:</h3>
-        <div id="results" class="flex-container">
-        </div>
+        <div id="results" class="flex-container"></div>
       </div>
     </section>
   </main>
@@ -46,4 +44,3 @@
   </footer>
 </body>
 </html>
-
