@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let cachedData = await checkDatabaseCache(inputValue, dataType);
 
         if (cachedData) {
-            generateResultBox(cachedData, dataType);
+            generateResultBox(inputValue, cachedData, dataType);
             return;
         }
           let apiResponse;
@@ -51,29 +51,30 @@ document.addEventListener('DOMContentLoaded', () => {
               apiResponse = await fetchPhoneVerification(inputValue);
               console.log(apiResponse)
               await saveToDatabase('phone_number', {
-                  phone_number: inputValue,
-                  valid: apiResponse.valid,
-                  location: apiResponse.location
+                  'phone_number': inputValue,
+                  'valid': apiResponse.valid,
+                  'location': apiResponse.location
               });
           } else if (dataType === 'email') {
               apiResponse = await fetchEmailVerification(inputValue);
+              console.log("Input Value: ", inputValue)
               await saveToDatabase('email_address', {
-                  email_address: inputValue,
-                  format: apiResponse.format_valid,
-                  domain: apiResponse.domain,
-                  disposable: apiResponse.disposable,
-                  dns: apiResponse.dns_valid
+                  'email_address': inputValue,
+                  'format': apiResponse.format,
+                  'domain': apiResponse.domain,
+                  'disposable': apiResponse.disposable,
+                  'dns': apiResponse.dns
               });
           } else if (dataType === 'address') {
               apiResponse = await fetchAddressVerification(inputValue);
               await saveToDatabase('physical_address', {
-                  address: inputValue,
-                  dpv_match_code: apiResponse.dpv_match_code,
-                  dpv_vacant: apiResponse.dpv_vacant
+                  'address': inputValue,
+                  'dpv_match_code': apiResponse.dpv_match_code,
+                  'dpv_vacant': apiResponse.dpv_vacant
               });
           }
 
-          generateResultBox(apiResponse, dataType);
+          generateResultBox(inputValue, apiResponse, dataType);
       } catch (error) {
           displayError('An error occurred while verifying. Please try again.');
           console.error('Verification failed:', error);
@@ -138,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function fetchEmailVerification(email) {
-      const emailUrl = `https://emailrep.io/${email}`;
+      const emailUrl = `https://www.disify.com/api/email/${email}`;
       const emailResponse = await fetch(emailUrl);
       if (!emailResponse.ok) throw new Error('Failed to fetch email verification.');
       return await emailResponse.json();
@@ -179,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
       resultsContainer.appendChild(errorBox);
   }
 
-    function generateResultBox(data, dataType) {
+    function generateResultBox(inputValue, data, dataType) {
         const resultBox = document.createElement('div');
         resultBox.className = 'result-box';
         
@@ -195,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     var validity = "❌"
                 }
-                const phoneText = `Phone Number: ${data.number}\n Location: ${data.location}\n Valid? ${validity}`
+                const phoneText = `Phone Number: ${inputValue}\n Location: ${data.location}\n Valid? ${validity}`
                 const phoneDetails = document.createElement('pre');
                 phoneDetails.textContent = phoneText
                 resultBox.appendChild(phoneDetails);
@@ -206,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     var validity = "❌"
                 }
-                const emailText = `Email Address: ${data.email_address}\n Valid? ${validity}`
+                const emailText = `Email Address: ${inputValue}\n Valid? ${validity}`
                 const emailDetails = document.createElement('pre');
                 emailDetails.textContent = emailText
                 resultBox.appendChild(emailDetails);
@@ -225,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     var validity = "❌"
                 }
-                const physicalText = `Physical Address: ${data.address}\n Valid? ${validity}\n Vacant? ${vacancy}`
+                const physicalText = `Physical Address: ${inputValue}\n Valid? ${validity}\n Vacant? ${vacancy}`
                 const physicalDetails = document.createElement('pre');
                 physicalDetails.textContent = physicalText
                 resultBox.appendChild(physicalDetails);
