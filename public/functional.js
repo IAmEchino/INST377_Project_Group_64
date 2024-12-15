@@ -2,20 +2,6 @@ const host = window.location.origin;
 
 document.addEventListener('DOMContentLoaded', () => {
   // Generate ASCII title using Figlet.js
-  const asciiTitleContainer = document.getElementById('ascii-title');
-  if (asciiTitleContainer) {
-    figlet.text('Is This Real?', {
-      font: 'Standard', // You can change this to other options like 'Ghost', 'Slant', etc.
-      horizontalLayout: 'default',
-      verticalLayout: 'default'
-    }, (err, asciiText) => {
-      if (err) {
-        console.error('Error generating ASCII text:', err);
-        return;
-      }
-      asciiTitleContainer.textContent = asciiText;
-    });
-  }
 
   const submitButton = document.getElementById('submit-button');
   const inputData = document.getElementById('input-data');
@@ -92,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
           displayError('An error occurred while verifying. Please try again.');
           console.error('Verification failed:', error);
       }
-  });
 
     // Check database cache for existing entry
     async function checkDatabaseCache(value, type) {
@@ -263,4 +248,5 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear the input field
         inputData.value = '';
     }
+  });
 });
