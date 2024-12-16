@@ -38,23 +38,17 @@ description: Our website allows users to authenticate the legitimancy of phone n
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/IAmEchino/is-this-real.git
-   cd is-this-real
+   git clone https://github.com/IAmEchino/INST377_Project_Group_64.git
+   cd INST377_Project_Group_64
    ```
+
+2. Install node.js
+    Head to https://nodejs.org/en/download/package-manager and download the
+    appropriate version of the app for your specific
 
 2. Install dependencies:
    ```bash/zsh
    npm install
-   ```
-
-3. Set up environment variables:
-   Create a `.env` file in the root directory with the following(we used an index.js file):
-   ```
-   SUPABASE_URL=your_supabase_project_url
-   SUPABASE_KEY=your_supabase_anon_key
-   PHONE_API_KEY=your_numverify_api_key
-   SMARTY_AUTH_ID=your_smarty_streets_auth_id
-   SMARTY_AUTH_TOKEN=your_smarty_streets_auth_token
    ```
 
 ## Running the Application
