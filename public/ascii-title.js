@@ -1,20 +1,11 @@
+const figlet = require('figlet');
 
-
-document.addEventListener('DOMContentLoaded', () => {
-    const asciiTitleContainer = document.getElementById('ascii-title');
-    
-    if (asciiTitleContainer) {
-      figlet.text('Is This Real?', {
-        font: 'Standard', 
-        horizontalLayout: 'default',
-        verticalLayout: 'default'
-      }, (err, asciiText) => {
-        if (err) {
-          console.error('Error generating ASCII text:', err);
-          return;
-        }
-        asciiTitleContainer.textContent = asciiText;
-      });
-    }
-  });
+figlet("Hello World!!", function (err, data) {
+  if (err) {
+    console.log("Something went wrong...");
+    console.dir(err);
+    return;
+  }
+  console.log(data);
+});
   
