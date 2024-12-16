@@ -78,7 +78,7 @@ The `vercel.json` file in the project root contains:
    vercel
    ```
 3. Follow the prompts to deploy your application
-```
+
 ### Testing Production Mode
 ```bash
 npm start
