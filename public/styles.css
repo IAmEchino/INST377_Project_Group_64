@@ -1,270 +1,276 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #111;
-    color: #fff;
-  }
-  
-  header .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    padding: 10px 20px;
-  }
-  
-  header h1 {
-    margin: 0;
-    color: #4CAF50;
-  }
-  
-  header nav a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 10px;
-  }
-  
-  header nav a:hover {
-    text-decoration: underline;
-  }
-  
-  main {
-    padding: 20px;
-    text-align: center;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #111;
+  color: #fff;
+}
 
-  /* Welcome Section */
- #welcome-section {
-    text-align: center;
-    margin: 40px auto;
-    max-width: 800px;
-  }
-  
-  #welcome-section h2 {
-    color: #4CAF50;
-    font-size: 2em;
-    margin-bottom: 20px;
-  }
-  
-  #welcome-section p {
-    font-size: 1.2em;
-    color: #ddd;
-    margin-bottom: 30px;
-  }
-  
-  .special-button {
-    display: inline-block;
-    background: linear-gradient(90deg, #4CAF50, #45a049);
-    color: #fff;
-    padding: 15px 30px;
-    font-size: 1.1em;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 50px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .special-button:hover {
-    background: linear-gradient(90deg, #45a049, #4CAF50);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
-  }
-  
-  .special-button:active {
-    transform: scale(1);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Home Page Styles */
-  #home-page {
-    margin: 20px auto;
-    max-width: 600px;
-    background: #222;
-    border-radius: 10px;
-    padding: 20px;
-  }
-  
-  #home-page h2 {
-    color: #4CAF50;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  form input[type="text"] {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  .data-type label {
-    margin-right: 20px;
-    color: #fff;
-  }
-  
-  button {
-    background: #4CAF50;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background: #45a049;
-  }
-  
-  #results-container {
-    margin-top: 20px;
-  }
-  
-  #results {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
-    background: #333;
-    padding: 20px;
-    border-radius: 5px;
-  }
-  
-  .result-box {
-    background: #4CAF50;
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 14px;
-    flex: 1 1 100px; 
-    max-width: 200px; 
-  }
-  
-  .result-box:hover {
-    background: #45a049;
-  }
-  
-  /* Slider Section */
-  #slider-section {
-    margin: 20px auto;
-    max-width: 800px;
-    text-align: center;
-  }
-  
-  #slider-section h2 {
-    color: #4CAF50;
-    margin-bottom: 20px;
-  }
-  
-  .slider img {
-    width: 100%;
-    border-radius: 10px;
-  }
-  
-  /* Slick Slider Customization */
-  .slick-prev,
-  .slick-next {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .slick-dots li button:before {
-    color: #4CAF50;
-  }
-  
-  .slick-prev:hover,
-  .slick-next:hover {
-    background-color: #4CAF50;
-  }
-  
-  /* Help/Function Page Styles */
-  #help-section {
-    text-align: center;
-    margin: 20px auto;
-    max-width: 800px;
-  }
-  
-  #help-section h2 {
-    color: #4CAF50;
-    margin-bottom: 20px;
-  }
-  
-  .help-image-container {
-    margin: 20px 0;
-  }
-  
-  .help-image-container img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .instructions {
-    text-align: left;
-    margin: 20px;
-  }
-  
-  .instructions ol {
-    margin-left: 20px;
-    color: #ddd;
-  }
-  
-  .instructions p {
-    color: #ccc;
-  }
-  
-  .instructions strong {
-    color: #4CAF50;
-  }
-  
-  /* Footer Styles */
-  footer {
-    text-align: center;
-    padding: 10px;
-    background: #333;
-    color: #fff;
-  }
-  #results-container {
-    margin-top: 20px;
-  }
-  
-  #results {
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 10px; 
-    margin-top: 10px;
-    background: #333;
-    padding: 20px;
-    border-radius: 5px;
-  }
-  
-  .result-box {
-    background: #4CAF50;
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 14px;
-    flex: 1 1 100px; 
-    max-width: 200px; 
-  }
-  
-  .result-box:hover {
-    background: #45a049; 
-  }
-  
+header .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 10px 20px;
+}
+
+header h1 {
+  margin: 0;
+  color: #4CAF50;
+}
+
+header nav a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+
+main {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Welcome Section */
+#welcome-section {
+  text-align: center;
+  margin: 40px auto;
+  max-width: 800px;
+}
+
+#welcome-section h2 {
+  color: #4CAF50;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+#welcome-section p {
+  font-size: 1.2em;
+  color: #ddd;
+  margin-bottom: 30px;
+}
+
+.special-button {
+  display: inline-block;
+  background: linear-gradient(90deg, #4CAF50, #45a049);
+  color: #fff;
+  padding: 15px 30px;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 50px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.special-button:hover {
+  background: linear-gradient(90deg, #45a049, #4CAF50);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+.special-button:active {
+  transform: scale(1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Home Page Styles */
+#home-page {
+  margin: 20px auto;
+  max-width: 600px;
+  background: #222;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#home-page h2 {
+  color: #4CAF50;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+}
+
+.data-type label {
+  margin-right: 20px;
+  color: #fff;
+}
+
+button {
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #45a049;
+}
+
+#results-container {
+  margin-top: 20px;
+}
+
+#results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  background: #333;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.result-box {
+  background: #4CAF50;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 14px;
+  flex: 1 1 100px; 
+  max-width: 200px; 
+}
+
+.result-box:hover {
+  background: #45a049;
+}
+
+/* Slider Section */
+#slider-section {
+  margin: 20px auto;
+  max-width: 800px;
+  text-align: center;
+}
+
+#slider-section h2 {
+  color: #4CAF50;
+  margin-bottom: 20px;
+}
+
+.slider img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Slick Slider Customization */
+.slick-prev,
+.slick-next {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slick-dots li button:before {
+  color: #4CAF50;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+  background-color: #4CAF50;
+}
+
+/* Help/Function Page Styles */
+#help-section {
+  text-align: center;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+#help-section h2 {
+  color: #4CAF50;
+  margin-bottom: 20px;
+}
+
+.help-image-container {
+  margin: 20px 0;
+}
+
+.help-image-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.instructions {
+  text-align: left;
+  margin: 20px;
+}
+
+.instructions ol {
+  margin-left: 20px;
+  color: #ddd;
+}
+
+.instructions p {
+  color: #ccc;
+}
+
+.instructions strong {
+  color: #4CAF50;
+}
+
+/* Footer Styles */
+footer {
+  text-align: center;
+  padding: 10px;
+  background: #333;
+  color: #fff;
+}
+#results-container {
+  margin-top: 20px;
+}
+
+#results {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 10px; 
+  margin-top: 10px;
+  background: #333;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.result-box {
+  background: #4CAF50;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 14px;
+  flex: 1 1 100px; 
+  max-width: 200px; 
+}
+
+.result-box:hover {
+  background: #45a049; 
+}
+#ascii-title {
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre;
+  color: #4CAF50;
+  text-align: center;
+  margin-bottom: 10px;
+}
