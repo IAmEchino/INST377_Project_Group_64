@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const physicalAuthToken = 'U9SFctsGZ7dQSZCmCh7g';
       const physicalAuthID = '19f2610e-aa6b-2f90-3a18-eb7bb7230e73'
       const physicalApiKey = '218455856825865685'
-      const physicalUrl = `https://us-street.api.smarty.com/street-address?street=${encodeURIComponent(address)}&auth-id=${encodeURIComponent(physicalAuthID)}&auth-token=${encodeURIComponent(physicalAuthToken)}&zipcode=${encodeURIComponent(zipCode)}`.toString();
+      const physicalUrl = `https://us-street.api.smarty.com/street-address?street=${encodeURIComponent(address)}&zipcode=${encodeURIComponent(zipCode)}&auth-id=${encodeURIComponent(physicalAuthID)}&auth-token=${encodeURIComponent(physicalAuthToken)}`.toString();
       console.log(physicalUrl)
       const physicalResponse = await fetch(physicalUrl, {
         method: 'GET',
