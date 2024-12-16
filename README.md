@@ -2,16 +2,11 @@
 
 ## Title: Is This ___ Real?
 
-description: Our website allows users to authenticate the legitimancy of phone numbers, emails, and home addresses. It is made for all web browsers and should have no issues running on mobile browsers(ios/andriod) or PCs.
+Description: Our website allows users to verify the legitimancy of phone numbers, emails, and home addresses. It is primarily designed
+with PC users in mind, as it works best in landscape mode, however
+it should also work without much issue on a phone.
 
 [Link to Developer Manual](#developer-manual-for-is-this-real-application)
-
-
-
-
-
-
-
 
 # Developer Manual for Is This Real? Application
 
@@ -23,72 +18,52 @@ description: Our website allows users to authenticate the legitimancy of phone n
 5. [Known Bugs](#known-bugs)
 6. [Future Development Roadmap](#future-development-roadmap)
 
-## Installation
-
 ### Prerequisites
 - Node.js (version 14.x or later)
 - npm (Node Package Manager)
 - Supabase Account
-- vercel 
+- GitHub Account (required?)
+- Vercel Account (optional)
 - API Keys for:
   - NumVerify (Phone Verification)
   - EmailRep (Email Verification)
   - Smarty Streets (Address Verification)
 
-### Steps
-1. Clone the repository:
+### Steps for Installation
+1. Clone the repository, then navigate to it:
    ```bash
    git clone https://github.com/IAmEchino/INST377_Project_Group_64.git
-   cd INST377_Project_Group_64
+   cd /INST377_Project_Group_64
    ```
-
 2. Install node.js
     Head to https://nodejs.org/en/download/package-manager and download the
-    appropriate version of the app for your specific
+    appropriate version of the app for your specific system
 
-2. Install dependencies:
-   ```bash/zsh
-   npm install
-   ```
+3. All dependencies are listed within the package.json file. If they
+do not automatically install with the rest of the github repo, you
+can install them by running `npm install [package name]`.
 
-## Running the Application
+4. In Visual Studio, run `npm start` to initialize the web server.
+
+5. Navigate to `http://localhost:3000` to check website functionality after startup.
+When making modifications, if nodemon does not automatically refresh the web server with modifications, run `rs` (restart) to restart the server.
 
 ### Deployment with Vercel
-- The project is configured for Vercel deployment using the `vercel.json` file
+- The project is preconfigured with support for Vercel deployment using the `vercel.json` file
 - Automatic deployments are triggered on pushes to the main branch
 - Vercel provides serverless function support for the Node.js backend
-
-
-### Vercel Configuration
-The `vercel.json` file in the project root contains:
-- Version 2 Vercel platform configuration
-- Builds specified for Node.js backend
-- Routes configured to direct all traffic to the main entry point
-
-## Deployment Steps
-1. Ensure you have a Vercel account (https://vercel.com)
-2. Link your project to Vercel:
-   ```bash
-   vercel
-   ```
-3. Follow the prompts to deploy your application
-
-### Testing Production Mode
-```bash
-npm start
-```
-
-The application will be available at `http://localhost:3000`
-
-## Testing
+- Installation is standard for a Vercel-based website.
 
 ### Running Tests
 *Note: no automated tests are implemented.*
+We recommend running the following manual tests to check if input validation is working:
 
-Recommended testing approach:
-- Manual testing of each verification endpoint
-- Use tools like Insomnia for API testing
-- Implement unit and integration tests in future iterations
+1. Input nothing, click a button and press submit.
+2. Input something, but don't press a data type and then press submit
+3. Input a phone number with only 10 digits, select phone, then press submit.
+4. Input an address without a ZIP code.
+
+Aside from that, all other *valid* data inputs should work.
 
 ## API Endpoints
 
@@ -162,15 +137,12 @@ Recommended testing approach:
 
 ## Known Bugs
 
-1. Rate Limiting: External APIs might have rate limits that could interrupt verification
-2. No Error Handling for Invalid API Keys
-3. Potential Performance Issues with Large Database
+1. Rate Limiting: External APIs have rate limits that could interrupt verification if we go over the limit
+2. The address verification currently doesn't work because of an incredibly stupid limitation put in place by the API provider, which completely breaks functionality except through Google Chrome. Professor Dash said that he will accept this code as-is with no penalty as it is otherwise valid.
+3. Our second intended JS library also is not working -- Professor Dash has
+also said that he will not penalize us for this either.
 
 ## Future Development Roadmap
-
-### Long-Term Goals
-- Develop mobile application
-- Create machine learning models for enhanced verification
-- Implement multi-factor verification
-- Build a subscription-based service model
-- Add more verification sources
+1. Fixing the bugs above would be the first thing. We had another API that we
+thought might fix the problem, but we were unable to do so due to a lack of time.
+2. We would then like to improve the appearance of our website. It's somewhat unattractive at the moment.

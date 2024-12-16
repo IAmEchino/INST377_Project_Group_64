@@ -1,3 +1,7 @@
+// This isn't working -- we have no idea why, even the phrase "require" isn't
+// working for some reason. We tried multiple times with AI bugchecking and it
+// just didn't work. Maybe the the site hosting the library is down?
+
 document.addEventListener('DOMContentLoaded', function() {
     // Ensure Figlet is available
     if (typeof figlet !== 'undefined') {

@@ -89,6 +89,8 @@ main {
 
 #home-page h2 {
   color: #4CAF50;
+  font-size: 2em;
+  margin-bottom: 20px;
 }
 
 form {
@@ -137,17 +139,6 @@ button:hover {
   border-radius: 5px;
 }
 
-.result-box {
-  background: #4CAF50;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 14px;
-  flex: 1 1 100px; 
-  max-width: 200px; 
-}
-
 .result-box:hover {
   background: #45a049;
 }
@@ -161,6 +152,7 @@ button:hover {
 
 #slider-section h2 {
   color: #4CAF50;
+  font-size: 2em;
   margin-bottom: 20px;
 }
 
@@ -200,6 +192,7 @@ button:hover {
 
 #help-section h2 {
   color: #4CAF50;
+  font-size: 2em;
   margin-bottom: 20px;
 }
 
@@ -264,13 +257,23 @@ footer {
   max-width: 200px; 
 }
 
+.result-box-error {
+  background: #4CAF50;
+  color: lightcoral;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 14px;
+  flex: 1 1 100px; 
+  max-width: 200px; 
+}
+
 .result-box:hover {
   background: #45a049; 
 }
-#ascii-title {
-  font-family: 'Courier New', Courier, monospace;
-  white-space: pre;
+
+#about-page h2 {
   color: #4CAF50;
-  text-align: center;
-  margin-bottom: 10px;
+  font-size: 2em;
+  margin-bottom: 20px;
 }

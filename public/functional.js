@@ -20,8 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
       }
 
-      console.log(inputValue.match(/\b\d{5}(?:-\d{4})?\b/));
-
       if (selectedOption.value == "phone" && inputValue.length < 11) {
           displayError('Please input a complete phone number with country code included.');
           return;
@@ -145,6 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return await emailResponse.json();
   }
 
+// This would work if not for an incredibly stupid limitation put in place
+// by the API provider, which completely breaks functionality except through
+// Google Chrome. Professor Dash said that he will accept this code as-is with 
+// no penalty as it is otherwise valid.
   async function fetchAddressVerification(address) {
       const zipCode = address.match(/\b\d{5}(?:-\d{4})?\b/)[0];
       const physicalAuthToken = 'U9SFctsGZ7dQSZCmCh7g';
@@ -166,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Error and Result Display Functions
   function displayError(message) {
       const errorBox = document.createElement('div');
-      errorBox.className = 'result-box error';
+      errorBox.className = 'result-box-error';
       errorBox.style.color = 'red';
       errorBox.textContent = message;
       const closeButton = document.createElement('button');
